@@ -1,0 +1,273 @@
+#tools list 
+###subdomain tools #####  
+	#findomain 
+	#assetfinder 
+	#subfinder  
+	
+###scripts######
+	#crt.Sh  
+	
+###template#####
+	#nuclie  >>> https://github.com/fa-rrel/My-best-templates
+
+
+
+###Wayback ####
+	#web.archive
+	#waybackurl/
+	#GAU
+	
+	
+	
+####FUZZING#####
+	#ffuf
+	#feroxbuster
+
+#!/bin/bash
+echo -e "
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  - - - -
+- - - -       ___     __   __    _____    _  __   ___   _____     _____    _____      _____    - - - -
+- - - -      / _ \    \ \ / /   / ____|  | |/ /  |_ _|  |  __ \   |  __ \  | ____|   |  __ \   - - - - 
+- - - -     | | | |    \ V /   | (___    | ' /    | |   | |__) |  | |__) | | |__     | |__) |  - - - -
+- - - -     | | | |     > <     \___ \   |  <     | |   |  ___/   |  ___/  |  __|    |  _  /   - - - - 
+- - - -     | |_| |    / . \    ____) |  | . \    | |   |_|       |_|      | |___    | | \ \   - - - - 
+- - - -      \___/    /_/ \_\  |_____/   |_|\_\  |___|  |_|       |_|      |_____|   |_|  \_\  - - - -
+- - - -                                                                                        - - - - 
+- - - - - - - - - - - - - - - - - - - ╔══════════════════════════╗- - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - ║           Rafat          ║- - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - ╚══════════════════════════╝- - - - - - - - - - - - - -  - - - - 
+
+"
+
+
+#####################################################
+################################create folder for subdomains tools ##################################################
+echo -e "\>0xSkipper</  Enter the organisation name  \>0xSkipper</"
+read company
+
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/findomain
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/assetfinder
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/subfinder
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/crt
+
+#####################create collect domains #############################
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final
+
+
+#######################create nuc file ################################
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/nuclie/
+
+
+#######################create Wayback file ################################
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/Trash/
+
+###############Fuzzer File #############################################
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Fuzzing/
+mkdir -p /home/0xSkipper/Desktop/Recon/Company/$company/Fuzzing/ffuf
+
+#################tools subdomain###################################
+
+
+#2#########findomain subdomain ###############################
+echo "findomain start "
+findomain -t $company -q > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/findomain/d.txt 
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/findomain/d.txt  > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/all_domains.txt
+echo "findomain end "
+
+#3#########assetfinder###################################
+echo "assetfinder start"
+assetfinder $company >/home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/assetfinder/domains.txt
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/assetfinder/domains.txt   >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/all_domains.txt
+echo "assetfinder end"
+
+
+
+
+
+
+
+###########################subfinder###########################################
+echo "subfinder start"
+subfinder -d $company > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/subfinder/domains.txt 
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/subfinder/domains.txt >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/all_domains.txt
+echo "subfinder end"
+
+
+
+
+
+#############crt script##############
+echo "crt script start"
+cd /home/0xSkipper/Desktop/Recon/Script 
+./crt.sh $company > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/crt/domains.txt
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/crt/domains.txt >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/all_domains.txt
+echo "crt script end"
+
+
+
+
+###############check state###########
+echo "check state start"
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/all_domains.txt |sort -u |httpx-toolkit  > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/live_domains.txt
+sed -i 's|http://||g' /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/live_domains.txt
+sed -i 's|https://||g' /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/live_domains.txt
+echo "check state end"
+
+#################### Loop through each live domain ##########################
+
+: << 'COMMENT'
+counter=1  # Initialize counter
+
+while IFS= read -r domain
+do
+    echo "Processing domain: $domain"
+
+    # Perform the steps for each domain
+    echo "findomain start for $domain"
+    findomain -t $domain -q > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_domains.txt
+    echo "findomain end for $domain"
+
+    echo "assetfinder start for $domain"
+    assetfinder $domain >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_domains.txt
+    echo "assetfinder end for $domain"
+
+    echo "subfinder start for $domain"
+    subfinder -d $domain >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_domains.txt
+    echo "subfinder end for $domain"
+
+    echo "crt script start for $domain"
+    ./crt.sh $domain >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_domains.txt
+    echo "crt script end for $domain"
+	
+	    counter=$((counter + 1))  # Increment counter
+
+echo "counter is = " $counter
+
+done < /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/live_domains.txt
+
+COMMENT
+
+######collect all domain ############################
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/live_domains.txt >> /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_domains.txt
+###############check state###########
+echo "check state start"
+cat /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_domains.txt |sort -u |httpx-toolkit  > /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_live_domains.txt
+echo "check state end"
+
+:<< 'COMMENT'
+#######run nuclie template #####################
+echo "nuclie template start"
+nuclei -l /home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_live_domains.txt -t /home/0xSkipper/Desktop/nuclei_template/ -severity 'critical ,high,medium ,low' > /home/0xSkipper/Desktop/Recon/Company/$company/nuclie/result.txt &
+echo "nuclie template end"
+
+COMMENT
+
+
+:<<COMMENT
+###### run waybackurls ########
+
+# Initialize counter
+counter=1
+
+# Define paths
+input_file="/home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_live_domains.txt"
+web_archive_output="/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/web.archive.txt"
+wayback_urls_output="/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/Wayback_URLS.txt"
+#filter_wayback_urls_output="/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/filter_Wayback_URLS.txt"
+GAU_urls_output="/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/GAU_URLS.txt"
+#filter_GAU_urls_output="/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/filter_GAU_URLS.txt"
+Collect_URLs="/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/Collect_URLS.txt"
+
+# Loop through each domain in the input file
+while IFS= read -r domain
+do
+    echo "Processing domain: $domain"
+
+    # Query Web Archive and store the result
+    echo "start Querying web.archive.org for $domain"
+    
+    # Ensure proper encoding for the URL
+    
+    # Execute the curl command and check if it works
+    curl_result=$(curl "https://web.archive.org/cdx/search/cdx?url=$domain%2f*&output=text&fl=original&collapse=urlkey&filter=statuscode%3A200")
+    
+    if [ -z "$curl_result" ]; then
+        echo "Curl command failed or returned no results for $domain"
+    else
+        echo "$curl_result" >> "$web_archive_output"
+        echo "Stored Web Archive results for $domain in $web_archive_output"
+    fi
+
+    # Use waybackurls and gau to gather URLs, filter them, and store the results
+    echo "Running waybackurls and gau for $domain"
+    echo "$domain" | waybackurls >> "$wayback_urls_output"
+    echo "$domain" | gau  >> "$GAU_urls_output"
+    echo "Stored Wayback and GAU results for $domain in $wayback_urls_output"
+
+    # Increment counter
+    counter=$((counter + 1))
+    echo "Completed processing for $domain. Counter: $counter"
+	
+done < "$input_file"
+
+####collect Wayback#####
+cat "$wayback_urls_output" > "$Collect_URLs"
+cat "$GAU_urls_output" >> "$Collect_URLs"
+# Filter and enumerate the URLs
+echo "Starting enumeration and filtering for $domain"
+cat "$Collect_URLs"        | egrep -v ".(eot|jpg|jpeg|gif|css|tif|tiff|png|ttf|otf|woff|woff2|ico|svg)"              | sort -u    | anew -q "/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/collect_filter_extenstion"
+cat "$Collect_URLs"        | awk -F '/' '{print $3}' | grep -oP "(?:[a-z0-9][a-z0-9-]{0,61}[a-z0-9])?\.[a-z0-9]{2,}" | sort -u | anew -q "/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/collect_filter_a-z0-9.txt"
+cat "$Collect_URLs"        | grep -i "\.json$" | httpx-toolkit |sort -u| anew -q "/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/collect-filter-json.txt"
+cat "$Collect_URLs"        | grep -i "\.txt$" | httpx-toolkit  |sort -u | anew -q "/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/collect-filter-txt.txt"
+cat "$Collect_URLs"        | grep -iAE "([^.]+)\.zip$|([^.]+)\.rar$|([^.]+)\.tar$|([^.]+)\.sql$|([^.]+)\.db$|([^.]+)\.backup$|([^.]+)\.pem$|([^.]+)\.bak$|([^.]+)\.cfg$|([^.]+)\.ini$|([^.]+)\.log$|([^.]+)\.sh$|([^.]+)\.py$|([^.]+)\.xml$|([^.]+)\.yaml$|([^.]+)\.yml$|([^.]+)\.env$|([^.]+)\.crt$|([^.]+)\.key$" | httpx-toolkit -o "/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/collect-filter-other.txt"
+cat "$Collect_URLs"        | grep -i "\.js$" | httpx-toolkit   | sort -u | anew -q "/home/0xSkipper/Desktop/Recon/Company/$company/waybackurl/collect-filter-js.txt"
+echo -e "Enumeration and filtering completed for $domain"
+
+COMMENT
+
+######FFUF########
+echo "FFUF tool run "
+
+# Define the file path
+file="/home/0xSkipper/Desktop/Recon/Company/$company/Subdomain/Final/last_live_domains.txt"
+
+
+##### run main_domain #################
+
+ffuf -u "http://$company/FUZZ" -w /home/0xSkipper/Desktop/common.txt >  /home/0xSkipper/Desktop/Recon/Company/$company/Fuzzing/ffuf/${company}_ffuf.txt
+
+# Read each domain from the file and execute ffuf on it
+
+while IFS= read -r domain; do
+ echo "Running ffuf on $domain"
+  
+  # Run ffuf
+  ffuf -u "http://$domain/FUZZ" -w /home/0xSkipper/Desktop/common.txt   > /home/0xSkipper/Desktop/Recon/Company/$company/Fuzzing/ffuf/${domain}_ffuf.txt
+
+done < "$file"
+
+
+
+echo -e "
+
+- - - - - - - - - - - - - - - - - - - ╔══════════════════════════╗- - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - ║       Happy Hacking      ║- - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - ╚══════════════════════════╝- - - - - - - - - - - - - -  - - - -
+- - - -       ___     __   __    _____    _  __   ___   _____     _____    _____      _____    - - - -
+- - - -      / _ \    \ \ / /   / ____|  | |/ /  |_ _|  |  __ \   |  __ \  | ____|   |  __ \   - - - - 
+- - - -     | | | |    \ V /   | (___    | ' /    | |   | |__) |  | |__) | | |__     | |__) |  - - - -
+- - - -     | | | |     > <     \___ \   |  <     | |   |  ___/   |  ___/  |  __|    |  _  /   - - - - 
+- - - -     | |_| |    / . \    ____) |  | . \    | |   |_|       |_|      | |___    | | \ \   - - - - 
+- - - -      \___/    /_/ \_\  |_____/   |_|\_\  |___|  |_|       |_|      |_____|   |_|  \_\  - - - -
+- - - -                                                                                        - - - - 
+- - - - - - - - - - - - - - - - - - - ╔══════════════════════════╗- - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - ║           Rafat          ║- - - - - - - - - - - - - -  - - - -
+- - - - - - - - - - - - - - - - - - - ╚══════════════════════════╝- - - - - - - - - - - - - -  - - - - 
+
+"
